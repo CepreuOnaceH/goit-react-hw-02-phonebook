@@ -52,7 +52,7 @@ class App extends Component {
         }}
       >
         <h1>Phonebook</h1>
-        <ContactForm onAddContact={this.addContact} />
+        <ContactForm onAddContact={this.addContact} contacts={contacts} />
         <h2>Contacts</h2>
         <Filter filter={filter} onFilterChange={this.handleFilterChange} />
         <ContactList contacts={filteredContacts} />

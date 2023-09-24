@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Notiflix from 'notiflix';
 
 class ContactForm extends Component {
   state = {
@@ -13,8 +14,15 @@ class ContactForm extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    this.props.onAddContact(this.state.name, this.state.number);
-
+    const { name, number } = this.state;
+    const isExist = this.props.contacts.some(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+    if (isExist) {
+      Notiflix.Notify.failure(`${name} is allready exist in your phone list!`);
+      return;
+    }
+    this.props.onAddContact(name, number);
     this.setState({ name: '', number: '' });
   };
   render() {
