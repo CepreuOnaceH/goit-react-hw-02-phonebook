@@ -4,20 +4,26 @@ class Phonebook extends Component {
   state = {
     contacts: [],
     name: '',
+    number: '',
   };
   handleNameChange = e => {
     this.setState({ name: e.target.value });
+  };
+  handleNumberChange = e => {
+    this.setState({ number: e.target.value });
   };
   handleSubmit = e => {
     e.preventDefault();
     const newContact = {
       id: nanoid(),
       name: this.state.name,
+      number: this.state.number,
     };
 
     this.setState(prevState => ({
       contacts: [...prevState.contacts, newContact],
       name: '',
+      number: '',
     }));
   };
   render() {
@@ -26,7 +32,12 @@ class Phonebook extends Component {
         <h1>Phonebook</h1>
         <form
           onSubmit={this.handleSubmit}
-          style={{ display: 'flex', gap: '20px', flexDirection: 'column' }}
+          style={{
+            width: '250px',
+            display: 'flex',
+            gap: '20px',
+            flexDirection: 'column',
+          }}
         >
           Name
           <input
@@ -38,12 +49,23 @@ class Phonebook extends Component {
             value={this.state.name}
             onChange={this.handleNameChange}
           />
+          <input
+            type="tel"
+            name="number"
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            required
+            value={this.state.number}
+            onChange={this.handleNumberChange}
+          />
           <button type="submit">Add contact</button>
         </form>
         <h2>Contatcs</h2>
         <ul>
           {this.state.contacts.map(contact => (
-            <li key={contact.id}>{contact.name}</li>
+            <li key={contact.id}>
+              {contact.name}: {contact.number}
+            </li>
           ))}
         </ul>
       </div>
